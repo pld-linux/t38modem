@@ -1,19 +1,12 @@
---- pstngw/Makefile~	Sat Jul 13 10:14:32 2002
-+++ pstngw/Makefile	Sat Jul 13 10:15:13 2002
-@@ -37,13 +37,13 @@
- PWLIBDIR=$(HOME)/pwlib
- endif
- 
--include $(PWLIBDIR)/make/ptlib.mak
-+include $(PWLIBDIR)/share/pwlib/ptlib.mak
- 
- ifndef OPENH323DIR
+diff -uNr t38modem.orig/Makefile t38modem/Makefile
+--- t38modem.orig/Makefile	Mon Aug  5 12:10:29 2002
++++ t38modem/Makefile	Mon Oct 28 11:15:56 2002
+@@ -50,7 +50,7 @@
  OPENH323DIR=$(HOME)/openh323
  endif
  
 -include $(OPENH323DIR)/openh323u.mak
 +include $(OPENH323DIR)/share/misc/openh323u.mak
  
- 
- ifdef NOTRACE
-
+ #
+ # If defined COUT_TRACE then enable duplicate the
