@@ -1,25 +1,27 @@
 Summary:	Fax modem to T.38 gateway
 Summary(pl):	Bramka faks modem -> T.38
 Name:		t38modem
-Version:	0.5.0
+Version:	0.6.2
 Release:	1
 License:	MPL
 Group:		Networking/Daemons
 Source0:	http://www.openh323.org/bin/%{name}_%{version}.tar.gz
 Patch0:		%{name}-mak_files.patch
 URL:		http://www.openh323.org/
-BuildRequires:	openh323-devel >= 1.10.4
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRequires:	openh323-devel >= 1.11.3
+BuildRequires:	pwlib-devel >= 1.4.8
 %requires_eq	openh323
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-No idea what T.38 is. Maybe T-1000 knows? I'll call Arnie.
+t38modem is a gateway between a fax application and IP network. From
+fax application view point it's a fax modem pool, from IP network view
+point it's a H.323 endpoint with T.38 fax support.
 
 %description -l pl
-Bramka faksmodemowa T.38.
-Umozliwia przesy³anie faksów przez H323 - programy
-faksowe mog± korzystaæ z niego jak z portu szeregowego.
-
+t38modem to bramka miêdzy aplikacj± faksow± a sieci± IP. Z punktu
+widzenia aplikacji jest to pula faksmodemów, z punktu widzenia sieci
+IP jest to punkt H.323 z obs³ug± faksów T.38.
 
 %prep
 %setup -qn %{name}
@@ -29,7 +31,8 @@ faksowe mog± korzystaæ z niego jak z portu szeregowego.
 PWLIBDIR=%{_prefix}; export PWLIBDIR
 OPENH323DIR=%{_prefix}; export OPENH323DIR
 
-%{__make} optshared OPTCCFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+%{__make} %{?debug:debug}%{!?debug:opt}shared \
+	OPTCCFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 
 %install
 rm -rf $RPM_BUILD_ROOT
