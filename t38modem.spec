@@ -6,6 +6,7 @@ Release:	1
 License:	MPL
 Group:		Networking/Daemons
 Source0:	http://www.openh323.org/bin/%{name}_%{version}.tar.gz
+# Source0-md5:	8b49e1d7f97ec0b6f2bfb7482f99d1ba
 Patch0:		%{name}-mak_files.patch
 URL:		http://www.openh323.org/
 BuildRequires:	openh323-devel >= 1.11.3
