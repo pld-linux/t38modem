@@ -1,7 +1,7 @@
 Summary:	Fax modem to T.38 gateway
 Summary(pl):	Bramka faks modem -> T.38
 Name:		t38modem
-Version:	0.4.0
+Version:	0.4.1
 Release:	1
 License:	MPL
 Group:		Networking/Daemons
