@@ -1,15 +1,16 @@
 Summary:	Fax modem to T.38 gateway
 Summary(pl):	Bramka faks modem -> T.38
 Name:		t38modem
-Version:	0.4.1
+Version:	0.4.2
 Release:	1
 License:	MPL
 Group:		Networking/Daemons
 Source0:	http://www.openh323.org/bin/%{name}_%{version}.tar.gz
 Patch0:		%{name}-mak_files.patch
 URL:		http://www.openh323.org/
-BuildRequires:	openh323-devel >= 1.8.2
+BuildRequires:	openh323-devel >= 1.10.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+%requires_eq	openh323
 
 %description
 No idea what T.38 is. Maybe T-1000 knows? I'll call Arnie.
