@@ -2,14 +2,14 @@ Summary:	Fax modem to T.38 gateway
 Summary(pl):	Bramka faks modem -> T.38
 Name:		t38modem
 Version:	0.6.2
-Release:	1
+Release:	2
 License:	MPL
 Group:		Networking/Daemons
 Source0:	http://www.openh323.org/bin/%{name}_%{version}.tar.gz
 # Source0-md5:	8b49e1d7f97ec0b6f2bfb7482f99d1ba
 Patch0:		%{name}-mak_files.patch
 URL:		http://www.openh323.org/
-BuildRequires:	openh323-devel >= 1.11.3
+BuildRequires:	openh323-devel >= 1.12.0
 BuildRequires:	pwlib-devel >= 1.4.8
 %requires_eq	openh323
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -29,9 +29,6 @@ IP jest to punkt H.323 z obs³ug± faksów T.38.
 %patch0 -p1
 
 %build
-PWLIBDIR=%{_prefix}; export PWLIBDIR
-OPENH323DIR=%{_prefix}; export OPENH323DIR
-
 %{__make} %{?debug:debug}%{!?debug:opt}shared \
 	OPTCCFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
 
