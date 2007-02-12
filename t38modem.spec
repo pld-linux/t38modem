@@ -1,5 +1,5 @@
 Summary:	Fax modem to T.38 gateway
-Summary(pl.UTF-8):   Bramka faks modem -> T.38
+Summary(pl.UTF-8):	Bramka faks modem -> T.38
 Name:		t38modem
 Version:	0.6.2
 Release:	2
