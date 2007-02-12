@@ -1,5 +1,5 @@
 Summary:	Fax modem to T.38 gateway
-Summary(pl):	Bramka faks modem -> T.38
+Summary(pl.UTF-8):   Bramka faks modem -> T.38
 Name:		t38modem
 Version:	0.6.2
 Release:	2
@@ -19,10 +19,10 @@ t38modem is a gateway between a fax application and IP network. From
 fax application view point it's a fax modem pool, from IP network view
 point it's a H.323 endpoint with T.38 fax support.
 
-%description -l pl
-t38modem to bramka miêdzy aplikacj± faksow± a sieci± IP. Z punktu
-widzenia aplikacji jest to pula faksmodemów, z punktu widzenia sieci
-IP jest to punkt H.323 z obs³ug± faksów T.38.
+%description -l pl.UTF-8
+t38modem to bramka miÄ™dzy aplikacjÄ… faksowÄ… a sieciÄ… IP. Z punktu
+widzenia aplikacji jest to pula faksmodemÃ³w, z punktu widzenia sieci
+IP jest to punkt H.323 z obsÅ‚ugÄ… faksÃ³w T.38.
 
 %prep
 %setup -qn %{name}
