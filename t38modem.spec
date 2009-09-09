@@ -1,17 +1,15 @@
+#
 Summary:	Fax modem to T.38 gateway
 Summary(pl.UTF-8):	Bramka faks modem -> T.38
 Name:		t38modem
-Version:	0.6.2
-Release:	2
+Version:	1.1.0
+Release:	0.1
 License:	MPL
 Group:		Networking/Daemons
-Source0:	http://www.openh323.org/bin/%{name}_%{version}.tar.gz
-# Source0-md5:	8b49e1d7f97ec0b6f2bfb7482f99d1ba
-Patch0:		%{name}-mak_files.patch
-URL:		http://www.openh323.org/
-BuildRequires:	openh323-devel >= 1.12.0
-BuildRequires:	pwlib-devel >= 1.4.8
-%requires_eq	openh323
+Source0:	http://dl.sourceforge.net/t38modem/t38modem-1.1.0.tgz
+# Source0-md5:	6a9a6a6e45432aefa065c0436db8b3ac
+URL:		http://t38modem.sourceforge.net/
+BuildRequires:	opal-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -25,12 +23,12 @@ widzenia aplikacji jest to pula faksmodemów, z punktu widzenia sieci
 IP jest to punkt H.323 z obsługą faksów T.38.
 
 %prep
-%setup -qn %{name}
-%patch0 -p1
+%setup -q
 
 %build
-%{__make} %{?debug:debug}%{!?debug:opt}shared \
-	OPTCCFLAGS="%{rpmcflags} -fno-rtti -fno-exceptions"
+%{__make} %{?debug:debug}%{!?debug:opt} \
+	USE_OPAL=1 OPALDIR=/usr/share/opal \
+	OPTCCFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
