@@ -2,14 +2,15 @@
 Summary:	Fax modem to T.38 gateway
 Summary(pl.UTF-8):	Bramka faks modem -> T.38
 Name:		t38modem
-Version:	1.1.0
-Release:	0.1
+Version:	1.2.0
+Release:	1
 License:	MPL
 Group:		Networking/Daemons
-Source0:	http://dl.sourceforge.net/t38modem/t38modem-1.1.0.tgz
-# Source0-md5:	6a9a6a6e45432aefa065c0436db8b3ac
+Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
+# Source0-md5:	9239576bac0b57a3c8d90671b0249247
+Patch0:		opal_flags_support.patch
 URL:		http://t38modem.sourceforge.net/
-BuildRequires:	opal-devel
+BuildRequires:	opal-devel >= 3.6.6-3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -24,11 +25,12 @@ IP jest to punkt H.323 z obsługą faksów T.38.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__make} %{?debug:debug}%{!?debug:opt} \
-	USE_OPAL=1 OPALDIR=/usr/share/opal \
-	OPTCCFLAGS="%{rpmcflags}"
+	USE_OPAL=1 USE_UNIX98_PTY=1 OPALDIR=/usr/include/opal \
+	PTLIBDIR=/usr/share/ptlib OPTCCFLAGS="%{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -41,5 +43,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README
+%doc ReadMe.txt
 %attr(755,root,root) %{_bindir}/*

@@ -1,0 +1,131 @@
+diff -urN t38modem-1.2.0.orig/Makefile t38modem-1.2.0/Makefile
+--- t38modem-1.2.0.orig/Makefile	2009-07-31 19:34:40.000000000 +0200
++++ t38modem-1.2.0/Makefile	2010-02-19 13:55:36.031537182 +0100
+@@ -116,8 +116,6 @@
+   SOURCES += \
+              opalutils.cxx \
+              modemep.cxx modemstrm.cxx \
+-             h323ep.cxx \
+-             sipep.cxx \
+              manager.cxx
+ 
+   ifndef OPALDIR
+@@ -128,6 +126,18 @@
+   STDCCFLAGS += -DUSE_OPAL
+ 
+-  include $(OPALDIR)/opal_inc.mak
++  include $(OPALDIR)/opal_defs.mak
++
++  ifeq ($(OPAL_H323),yes)
++    SOURCES += h323ep.cxx
++    STDCCFLAGS += -DOPAL_H323
++  endif
++
++  ifeq ($(OPAL_SIP),yes)
++    SOURCES += sipep.cxx
++    STDCCFLAGS += -DOPAL_SIP
++  endif
++
++  include $(OPALDIR)/opal_inc.mak
+ else
+   VPATH_CXX := h323lib
+ 
+diff -urN t38modem-1.2.0.orig/opal/manager.cxx t38modem-1.2.0/opal/manager.cxx
+--- t38modem-1.2.0.orig/opal/manager.cxx	2009-07-31 19:34:40.000000000 +0200
++++ t38modem-1.2.0/opal/manager.cxx	2010-02-19 13:59:48.268520117 +0100
+@@ -55,8 +55,12 @@
+ #include <opal/buildopts.h>
+ 
+ #include "../pmutils.h"
++#ifdef OPAL_H323
+ #include "h323ep.h"
++#endif
++#ifdef OPAL_SIP
+ #include "sipep.h"
++#endif
+ #include "modemep.h"
+ #include "manager.h"
+ 
+@@ -71,8 +75,12 @@
+ PString MyManager::ArgSpec()
+ {
+   return
++#ifdef OPAL_H323
+     MyH323EndPoint::ArgSpec() +
++#endif
++#ifdef OPAL_SIP
+     MySIPEndPoint::ArgSpec() +
++#endif
+     ModemEndPoint::ArgSpec() +
+     "-ports:"
+     "-route:"
+@@ -101,8 +109,12 @@
+   ).Lines();
+ 
+   PStringArray arr[] = {
++#ifdef OPAL_H323
+     MyH323EndPoint::Descriptions(),
++#endif
++#ifdef OPAL_SIP
+     MySIPEndPoint::Descriptions(),
++#endif
+     ModemEndPoint::Descriptions(),
+   };
+ 
+@@ -122,8 +134,12 @@
+   PBoolean first = TRUE;
+ 
+   PStringArray arr[] = {
++#ifdef OPAL_H323
+     MyH323EndPoint::Descriptions(args),
++#endif
++#ifdef OPAL_SIP
+     MySIPEndPoint::Descriptions(args),
++#endif
+     ModemEndPoint::Descriptions(args),
+   };
+ 
+@@ -192,11 +208,15 @@
+   if (!ModemEndPoint::Create(*this, args))
+     return FALSE;
+ 
++#ifdef OPAL_H323
+   if (!MyH323EndPoint::Create(*this, args))
+     return FALSE;
++#endif
+ 
++#ifdef OPAL_SIP
+   if (!MySIPEndPoint::Create(*this, args))
+     return FALSE;
++#endif
+ 
+   if (args.HasOption("route")) {
+     SetRouteTable(args.GetOptionString("route").Tokenise(",\r\n", FALSE));
+@@ -308,6 +328,7 @@
+   PSafePtr<OpalConnection> pOtherConn = connection.GetOtherPartyConnection();
+ 
+   if (pOtherConn != NULL) {
++#ifdef OPAL_H323
+     if (PIsDescendant(&pOtherConn->GetEndPoint(), MyH323EndPoint)) {
+       if (((MyH323EndPoint &)pOtherConn->GetEndPoint()).RequestModeChange(*pOtherConn, mediaType)) {
+         myPTRACE(2, "MyManager::RequestModeChange(" << connection << ", " <<  mediaType << ")"
+@@ -316,6 +337,8 @@
+       }
+     }
+     else
++#endif
++#ifdef OPAL_SIP
+     if (PIsDescendant(&pOtherConn->GetEndPoint(), MySIPEndPoint)) {
+       if (((MySIPEndPoint &)pOtherConn->GetEndPoint()).RequestModeChange(*pOtherConn, mediaType)) {
+         myPTRACE(2, "MyManager::RequestModeChange(" << connection << ", " <<  mediaType << ")"
+@@ -323,7 +346,9 @@
+         return PTrue;
+       }
+     }
+-    else {
++    else 
++#endif
++	{
+         myPTRACE(1, "MyManager::RequestModeChange(" << connection << ", " <<  mediaType << ")"
+                     " RequestModeChange(" << *pOtherConn << ") - not implemented");
+     }
