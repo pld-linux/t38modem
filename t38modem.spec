@@ -9,6 +9,7 @@ Group:		Networking/Daemons
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tgz
 # Source0-md5:	9239576bac0b57a3c8d90671b0249247
 Patch0:		opal_flags_support.patch
+# Patch0 applied upstream. Can be removed in next release.
 URL:		http://t38modem.sourceforge.net/
 BuildRequires:	opal-devel >= 3.6.6-3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
